@@ -34,18 +34,18 @@ export default function QuestionPanel({ sessionId, onSelectQuestion }) {
       {/* Panel header */}
       <div style={{
         display:'flex', alignItems:'center', justifyContent:'space-between',
-        padding:'8px 14px', borderBottom:'1px solid var(--border)',
-        flexShrink:0, background:'rgba(255,255,255,0.01)',
+        padding:'7px 12px', borderBottom:'1px solid var(--border)',
+        flexShrink:0, background:'rgba(0,0,8,.5)',
       }}>
         <div style={{ display:'flex', alignItems:'center', gap:7 }}>
-          <Sparkles size={14} color="var(--accent)" />
-          <span style={{ fontSize:'0.8rem', fontWeight:600, color:'var(--text-primary)' }}>
-            Suggested Questions
+          <Sparkles size={14} color="#6366f1" />
+          <span style={{ fontSize:'.8rem', fontWeight:600, color:'#e2e8f0' }}>
+            AI Suggestions
           </span>
           {questions.length > 0 && !loading && (
             <span style={{
-              fontSize:'0.68rem', fontWeight:600, padding:'1px 7px',
-              borderRadius:20, background:'rgba(99,102,241,0.2)', color:'var(--accent-light)',
+              fontSize:'.66rem', fontWeight:600, padding:'1px 7px',
+              borderRadius:20, background:'rgba(99,102,241,.2)', color:'#a78bfa',
             }}>{questions.length}</span>
           )}
         </div>
@@ -68,7 +68,7 @@ export default function QuestionPanel({ sessionId, onSelectQuestion }) {
       </div>
 
       {/* Scrollable list */}
-      <div style={{ flex:1, overflowY:'auto', padding:'8px 10px' }}>
+      <div style={{ flex:1, overflowY:'auto', padding:'7px 9px' }}>
         <AnimatePresence mode="wait">
 
           {loading && (
@@ -112,24 +112,26 @@ export default function QuestionPanel({ sessionId, onSelectQuestion }) {
                   onClick={() => onSelectQuestion(q)}
                   style={{
                     width:'100%', textAlign:'left', marginBottom:5,
-                    padding:'8px 10px', borderRadius:10, cursor:'pointer',
-                    background:'rgba(255,255,255,0.03)',
-                    border:'1px solid rgba(255,255,255,0.07)',
+                    padding:'8px 10px', borderRadius:9, cursor:'pointer',
+                    background:'rgba(255,255,255,.03)',
+                    border:'1px solid rgba(255,255,255,.06)',
                     display:'flex', alignItems:'flex-start', gap:8,
-                    transition:'all 0.15s',
+                    transition:'all .15s',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(99,102,241,0.1)';
-                    e.currentTarget.style.borderColor = 'rgba(99,102,241,0.3)';
+                    e.currentTarget.style.background = 'rgba(99,102,241,.1)';
+                    e.currentTarget.style.borderColor = 'rgba(99,102,241,.3)';
+                    e.currentTarget.style.transform = 'translateX(2px)';
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
+                    e.currentTarget.style.background = 'rgba(255,255,255,.03)';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,.06)';
+                    e.currentTarget.style.transform = 'translateX(0)';
                   }}
                 >
-                  <span style={{ fontSize:'0.9rem', flexShrink:0, marginTop:1 }}>{ICONS[i % ICONS.length]}</span>
-                  <span style={{ fontSize:'0.77rem', color:'var(--text-secondary)', lineHeight:1.5, flex:1 }}>{q}</span>
-                  <ChevronRight size={11} color="var(--accent)" style={{ flexShrink:0, marginTop:3, opacity:0.6 }} />
+                  <span style={{ fontSize:'.88rem', flexShrink:0, marginTop:1 }}>{ICONS[i % ICONS.length]}</span>
+                  <span style={{ fontSize:'.75rem', color:'#94a3b8', lineHeight:1.55, flex:1 }}>{q}</span>
+                  <ChevronRight size={11} color="#6366f1" style={{ flexShrink:0, marginTop:3, opacity:.6 }} />
                 </motion.button>
               ))}
             </motion.div>
