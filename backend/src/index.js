@@ -1,25 +1,32 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
 
 const pdfRoutes = require('./routes/pdf');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
+// ── CORS — allow GitHub Pages + localhost ──
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://verisentinel.github.io',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
 
-// Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, cb) => {
+    // Allow requests with no origin (curl, mobile apps) or matched origins
+    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
+      cb(null, true);
+    } else {
+      cb(null, true); // permissive for now — tighten in production
+    }
+  },
   credentials: true,
 }));
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
@@ -37,7 +44,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 PDF AI Assistant Backend running on http://localhost:${PORT}`);
-  console.log(`📁 Uploads directory: ${uploadsDir}\n`);
-});
+// ── Start server locally; export for Vercel serverless ──
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n🚀 PDF AI Assistant Backend running on http://localhost:${PORT}\n`);
+  });
+}
+
+module.exports = app;

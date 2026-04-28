@@ -2,13 +2,13 @@ const pdfParse = require('pdf-parse');
 const fs = require('fs');
 
 /**
- * Extract text from a PDF file
- * @param {string} filePath - Path to the PDF file
+ * Extract text from a PDF buffer or file path
+ * @param {Buffer|string} input - PDF buffer (from multer memoryStorage) or file path
  * @returns {{ text: string, pages: number, info: object }}
  */
-async function extractTextFromPDF(filePath) {
-  const dataBuffer = fs.readFileSync(filePath);
-  const data = await pdfParse(dataBuffer);
+async function extractTextFromPDF(input) {
+  const buffer = Buffer.isBuffer(input) ? input : fs.readFileSync(input);
+  const data = await pdfParse(buffer);
   return {
     text: data.text,
     pages: data.numpages,
