@@ -13,7 +13,7 @@ const router = express.Router();
 // Configure multer for PDF uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadsDir = path.join(__dirname, '../../uploads');
+    const uploadsDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, '../../uploads');;
     cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
